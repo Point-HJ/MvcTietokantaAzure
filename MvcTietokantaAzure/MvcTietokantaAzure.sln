@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcTietokantaAzure", "MvcTietokantaAzure\MvcTietokantaAzure.csproj", "{CE1248C8-FBF2-4EA0-8451-D957EE9036C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE1248C8-FBF2-4EA0-8451-D957EE9036C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1248C8-FBF2-4EA0-8451-D957EE9036C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1248C8-FBF2-4EA0-8451-D957EE9036C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1248C8-FBF2-4EA0-8451-D957EE9036C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37D2DE01-2D6F-4461-959D-5E5CBF75311E}
+	EndGlobalSection
+EndGlobal
