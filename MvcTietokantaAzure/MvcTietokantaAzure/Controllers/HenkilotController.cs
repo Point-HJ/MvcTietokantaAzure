@@ -21,4 +21,20 @@ namespace MvcTietokantaAzure.Controllers
             return View(model);
         }
     }
+
+
+    public class HenkilotController : Controller
+    {
+        // GET: Henkilot
+        public ActionResult Index()
+        {
+            ViewBag.OmaTieto = "Höpölöpö";
+
+            KoulukantaEntities entities = new KoulukantaEntities();
+            List<HENKILOT> model = entities.HENKILOT.ToList();
+            entities.Dispose();
+
+            return View(model);
+        }
+    }
 }
