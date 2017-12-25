@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MvcTietokantaAzure.Models.HENKILOT>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Henkilot, staattinen tapa</h2>
+
+<p>Kontrollerista tullutta tietoa: <strong>@ViewBag.OmaTieto</strong>.</p>
+
+<table class="table table-striped"> 
+    <thead>
+        <tr>
+            <th>Henkilö-ID</th>
+            <th>Etunimi</th>
+            <th>Sukunimi</th>
+            <th>Osoite</th>
+            <th>Esimies</th>
+        </tr>
+    </thead>
+</table>

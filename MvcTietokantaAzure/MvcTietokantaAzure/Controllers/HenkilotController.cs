@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcTietokantaAzure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,12 +9,16 @@ namespace MvcTietokantaAzure.Controllers
 {
     public class HenkilotController : Controller
     {
-        // GET: Customer
+        // GET: Henkilot
         public ActionResult Index()
         {
+            ViewBag.OmaTieto = "Höpölöpö";
 
+            KoulukantaEntities entities = new KoulukantaEntities();
+            List<HENKILOT> model = entities.HENKILOT.ToList();
+            entities.Dispose();
 
-            return View();
+            return View(model);
         }
     }
 }
