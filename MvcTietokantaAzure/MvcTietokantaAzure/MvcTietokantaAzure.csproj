@@ -243,6 +243,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Henkilot\Index.cshtml" />
     <Content Include="Views\Henkilot\Index2.cshtml" />
+    <Content Include="Views\Henkilot\Index3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
