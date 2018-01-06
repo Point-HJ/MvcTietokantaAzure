@@ -11,7 +11,6 @@
                 //alert("Henkilöiden lukumäärä: " + henkilot.length);
 
                 var html = "";
-
                 for (var index = 0; index < henkilot.length; index++) {
                     html += "<tr>" +
                         "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
@@ -20,102 +19,98 @@
                         "<td>" + henkilot[index].Sukunimi + "</td>" +
                         "<td>" + henkilot[index].Osoite + "</td>" +
                         "<td>" + henkilot[index].Esimies + "</td>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                         "</tr>\r\n";
                 }
 
                 $("#henkiloList tbody").html(html);
 
-
                 // tietojen muokkaus
                 $(".glyphicon-pencil").click(function () {
+                    
                     // etsitään henkilön tiedot klikatulta riviltä
                     var henkiloId = $(this).parent().parent().next().text();
-                   // alert(henkiloId);
+                    alert(henkiloId);
 
                     // haetaan asiakkaan tiedot id:n perusteella
                     $.getJSON("/henkilot/getsinglehenkilo/" + henkiloId, null, function (json2) {
-                        var henkilot = JSON.parse(json2); 
-
+                        var henkilot = JSON.parse(json2);
 
                         // kopioidaan tiedot ikkunaan
-                        $("#henkilotModal_HenkId").val(henkilot.HenkiloID);
+                        $("#henkilotModal_HenkiloId").val(henkilot.HenkiloID);
                         $("#henkilotModal_Etunimi").val(henkilot.Etunimi);
                         $("#henkilotModal_Sukunimi").val(henkilot.Sukunimi);
                         $("#henkilotModal_Osoite").val(henkilot.Osoite);
                         $("#henkilotModal_Esimies").val(henkilot.Esimies);
 
                         // näytetään ikkuna
-                        $("#HenkiloModalTitle").text("Muokkaa henkilöä");
-                        $("#HenkiloModalDialog").modal("show");
-
-                        
-                     });
+                        $("#henkilotModalTitle").text("Muokkaa henkilöä");
+                        $("#henkilotModalDialog").modal("show");
+                    });
                 });
 
-                        // tietojen poisto
-                        $(".glyphicon-trash").click(function () {
-                            // etsitään asiakkaan tiedot klikatulta riviltä
-                            console.log("Poistoa klikattu");
-                            var henkiloId = $(this).parent().parent().prev().prev().prev().prev().text();
-                            var ok = confirm("Haluatko varmasti poistaa henkilön " + henkiloId + "?");
+                // tietojen poisto
+                $(".glyphicon-trash").click(function () {
+                    // etsitään asiakkaan tiedot klikatulta riviltä
+                    console.log("Poistoa klikattu");
+                    var henkiloId = $(this).parent().parent().prev().prev().prev().prev().prev().text();
+                    var ok = confirm("Haluatko varmasti poistaa henkilön " + henkiloId + "?");
 
-                            if (ok == true) {
-                                $.getJSON("/henkilot/delete/" + henkiloId, null, function (status) {
-                                    if (status == true) {
-                                        alert("Henkilö on nyt poistettu!");
-                                        päivitäHenkilölista();
-                                    }
-                                    else {
-                                        alert("Poistaminen ei onnistunut, yritä uudelleen!");
-                                    }
-                                });
+                    if (ok == true) {
+                        $.getJSON("/henkilot/delete/" + henkiloId, null, function (status) {
+                            if (status == true) {
+                                alert("Henkilö on nyt poistettu!");
+                                päivitäHenkilölista();
+                            }
+                            else {
+                                alert("Poistaminen ei onnistunut, yritä uudelleen!");
                             }
                         });
+                    }
+                });
             });
         }
 
-            $(function () {
-                   päivitäHenkilölista();
+        $(function () {
+            päivitäHenkilölista();
 
-                        $("#addUusiHenkiloButton").click(function () {
+            $("#addUusiHenkiloButton").click(function () {
 
-                            // tyhjennetään ikkunan tiedot
-                            $("#henkilotModal_HenkId").val("(uusi)");
-                            $("#henkilotModal_Etunimi").val("");
-                            $("#henkilotModal_Sukunimi").val("");
-                            $("#henkilotModal_Osoite").val("");
-                            $("#henkilotModal_Esimies").val("");
+                // tyhjennetään ikkunan tiedot
+                $("#henkilotModal_HenkiloId").val("(Uusi)");
+                $("#henkilotModal_Etunimi").val("");
+                $("#henkilotModal_Sukunimi").val("");
+                $("#henkilotModal_Osoite").val("");
+                $("#henkilotModal_Esimies").val("");
 
-
-
-                            $("#HenkiloModalTitle").text("Lisää uusi henkilö");
-                            $("#HenkiloModalDialog").modal("show");
-                        });
-
-                        $("#henkiloModalSaveButton").click(function () {
-                            // luetaan käyttäjän syöttämät kentät
-                            var details = {
-                                HenkiloID: $("#henkilotModal_HenkId").val(),
-                                Etunimi: $("#henkilotModal_Etunimi").val(),
-                                Sukunimi: $("#henkilotModal_Sukunimi").val(),
-                                Osoite: $("#henkilotModal_Osoite").val(),
-                                Esimies: $("#henkilotModal_Esimies").val()
-                            };
-
-                            $.post("/henkilot/update/", details, function (status) {
-                                if (status == true) {
-                                    alert("Uudet tiedot tallennettu!");
-                                    $("#henkiloModalDialog").modal("hide");
-                                    päivitäHenkilolista();
-                                }
-                                else {
-                                    alert("Tallennus ei onnistunut, yritä uudelleen!");
-                                }
-                            });
-                        });
-
-                  console.log("Alustus valmis!");
+                $("#henkilotModalTitle").text("Lisää uusi henkilö");
+                $("#henkilotModalDialog").modal("show");
             });
+
+            $("#henkilotModalSaveButton").click (function () {
+                // luetaan käyttäjän syöttämät kentät
+                var details = {
+                    HenkiloID: $("#henkilotModal_HenkiloId").val(),
+                    Etunimi: $("#henkilotModal_Etunimi").val(),
+                    Sukunimi: $("#henkilotModal_Sukunimi").val(),
+                    Osoite: $("#henkilotModal_Osoite").val(),
+                    Esimies: $("#henkilotModal_Esimies").val()
+                };
+
+                $.post("/henkilot/update/", details, function (status) {
+                    if (status == true) {
+                        alert("Uudet tiedot tallennettu!");
+                        $("#henkilotModalDialog").modal("hide");
+                        päivitäHenkilölista();
+                    }
+                    else {
+                        alert("Tallennus ei onnistunut, yritä uudelleen!");
+                    }
+                });
+            });
+
+            console.log("Alustus valmis!");
+        });
     </script>
 
 }
@@ -137,17 +132,17 @@
     <tbody></tbody>
 </table>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="HenkiloModalDialog">
+<div class="modal fade" tabindex="-1" role="dialog" id="henkilotModalDialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><span id="HenkiloModalTitle">Muokkaa asiakasta</span></h4>
+                <h4 class="modal-title"><span id="henkilotModalTitle">Muokkaa henkilöä</span></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">Henkilö-ID</div>
-                    <div class="col-md-6"><input class="form-control" id="henkilotModal_HenkiId" type="text" readonly></div>
+                    <div class="col-md-6"><input class="form-control" id="henkilotModal_HenkiloId" type="text" readonly></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Etunimi</div>
@@ -169,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
-                <button type="button" class="btn btn-primary" id="HenkilotModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-primary" id="henkilotModalSaveButton">Tallenna</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
