@@ -7,9 +7,9 @@
       <Diagram DiagramId="af61ca11c1ba40ddaf600d0d1af03327" Name="Diagram1">
         <EntityTypeShape EntityType="KoulukantaModel.HENKILOT" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KoulukantaModel.PROJEKTIT" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KoulukantaModel.TUNNIT" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KoulukantaModel.TUNNIT" Width="1.5" PointX="2.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="KoulukantaModel.Henkilot_bak" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KoulukantaModel.POSTITOIMIPAIKKA" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KoulukantaModel.POSTITOIMIPAIKKA" Width="1.5" PointX="4.75" PointY="3.5" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

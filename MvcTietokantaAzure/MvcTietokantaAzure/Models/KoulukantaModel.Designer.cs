@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\HeiJoe364\Source\Repos\MvcTietokantaAzure\MvcTietokantaAzure\MvcTietokantaAzure\Models\KoulukantaModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\HeiJoe364\source\repos\MvcTietokantaAzure\MvcTietokantaAzure\MvcTietokantaAzure\Models\KoulukantaModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

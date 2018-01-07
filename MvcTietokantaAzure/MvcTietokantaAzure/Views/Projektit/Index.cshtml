@@ -1,0 +1,142 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+@section scripts {
+    <script type="text/javascript">
+
+        function päivitäProjektilista() {
+            $.getJSON("/projektit/getlist", null, function (json) {
+                var projektit = JSON.parse(json);
+
+                var html = "";
+                for (var index = 0; index < projektit.length; index++) {
+                    html += "<tr>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
+                        "<td>" + projektit[index].ProjektiID + "</td>" +
+                        "<td>" + projektit[index].Nimi + "</td>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                        "</tr>\r\n";
+                }
+
+                $("#projektiList tbody").html(html);
+
+                // tietojen muokkaus
+                $(".glyphicon-pencil").click(function () {
+
+                    // etsitään henkilön tiedot klikatulta riviltä
+                    var projektiID = $(this).parent().parent().next().text();
+                    alert(projektiID);
+
+                    // haetaan asiakkaan tiedot id:n perusteella
+                    $.getJSON("/projektit/getsingleprojektit/" + projektiID, null, function (json2) {
+                        var projektit = JSON.parse(json2);
+
+                        // kopioidaan tiedot ikkunaan
+                        $("#projektitModal_ProjektiID").val(projektit.ProjektiID);
+                        $("#projektitModal_Nimi").val(projektit.Nimi);
+
+                        // näytetään ikkuna
+                        $("#projektitModalTitle").text("Muokkaa projekteja");
+                        $("#projektitModalDialog").modal("show");
+                    });
+                });
+
+                // tietojen poisto
+                $(".glyphicon-trash").click(function () {
+                    // etsitään asiakkaan tiedot klikatulta riviltä
+                    console.log("Poistoa klikattu");
+                    var projektiID = $(this).parent().parent().prev().prev().text();
+                    var ok = confirm("Haluatko varmasti poistaa projektin " + projektiID + "?");
+
+                    if (ok == true) {
+                        $.getJSON("/projektit/delete/" + projektiID, null, function (status) {
+                            if (status == true) {
+                                alert("Projekti on nyt poistettu!");
+                                päivitäProjektilista();
+                            }
+                            else {
+                                alert("Poistaminen ei onnistunut, yritä uudelleen!");
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        $(function () {
+            päivitäProjektilista();
+
+            $("#addUusiProjektitButton").click(function () {
+
+                // tyhjennetään ikkunan tiedot
+                $("#projektitModal_ProjektiID").val("(Uusi)");
+                $("#projektitModal_Nimi").val("");
+
+                // näytetään ikkuna
+                $("#projektitModalTitle").text("Lisää uusi projekti");
+                $("#projektitModalDialog").modal("show");
+            });
+
+            $("#projektitModalSaveButton").click(function () {
+                // luetaan käyttäjän syöttämät kentät
+                var details = {
+                    ProjektiID: $("#projektitModal_ProjektiID").val(),
+                    Nimi: $("#projektitModal_Nimi").val(),
+                };
+
+                $.post("/projektit/update/", details, function (status) {
+                    if (status == true) {
+                        alert("Uudet tiedot tallennettu!");
+                        $("#projektitModalDialog").modal("hide");
+                        päivitäProjektilista();
+                    }
+                    else {
+                        alert("Tallennus ei onnistunut, yritä uudelleen!");
+                    }
+                });
+            });
+
+            console.log("Alustus valmis!");
+        });
+    </script>
+
+}
+<h2>Projektit</h2>
+<button class="btn btn-primary" id="addUusiProjektitButton">Lisää uusi</button>
+
+
+<table class="table table-striped" id="projektiList">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Projekti-ID</th>
+            <th>Nimi</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="projektitModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><span id="projektitModalTitle">Muokkaa projektia</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">Projekti-ID</div>
+                    <div class="col-md-6"><input class="form-control" id="projektitModal_ProjektiID" type="text"></div>
+                </div>
+                    <div class="col-md-3">Nimi</div>
+                    <div class="col-md-6"><input class="form-control" id="projektitModal_Nimi" type="text"></div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                <button type="button" class="btn btn-primary" id="projektitModalSaveButton">Tallenna</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

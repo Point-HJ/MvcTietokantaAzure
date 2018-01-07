@@ -8,13 +8,11 @@ using System.Web.Mvc;
 
 namespace MvcTietokantaAzure.Controllers
 {
-    public class HenkilotController : Controller
-
+    public class TunnitController : Controller
     {
-
-        public ActionResult Index3()
+        // GET: Tunnit
+        public ActionResult Index()
         {
-
             return View();
         }
 
@@ -22,14 +20,14 @@ namespace MvcTietokantaAzure.Controllers
         {
             KoulukantaEntities entities = new KoulukantaEntities();
 
-            var model = (from h in entities.HENKILOT
+            var model = (from t in entities.TUNNIT
                          select new
                          {
-                             HenkiloID = h.HenkiloID,
-                             Etunimi = h.Etunimi,
-                             Sukunimi = h.Sukunimi,
-                             Osoite = h.Osoite,
-                             Esimies = h.Esimies
+                             TuntiID = t.TuntiID,
+                             ProjektiID = t.ProjektiID,
+                             HenkiloID = t.HenkiloID,
+                             Pvm = t.Pvm,
+                             Tunnit1 = t.Tunnit1
                          }).ToList();
 
 
@@ -42,19 +40,19 @@ namespace MvcTietokantaAzure.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSingleHenkilo(int id)
+        public JsonResult GetSingleTunnit(int id)
         {
             KoulukantaEntities entities = new KoulukantaEntities();
 
-            var model = (from h in entities.HENKILOT
-                         where h.HenkiloID == id
+            var model = (from t in entities.TUNNIT
+                         where t.HenkiloID == id
                          select new
                          {
-                             HenkiloID = h.HenkiloID,
-                             Etunimi = h.Etunimi,
-                             Sukunimi = h.Sukunimi,
-                             Osoite = h.Osoite,
-                             Esimies = h.Esimies
+                             TuntiID = t.TuntiID,
+                             ProjektiID = t.ProjektiID,
+                             HenkiloID = t.HenkiloID,
+                             Pvm = t.Pvm,
+                             Tunnit1 = t.Tunnit1
                          }).FirstOrDefault();
 
 
@@ -65,7 +63,7 @@ namespace MvcTietokantaAzure.Controllers
         }
 
 
-        public ActionResult update(HENKILOT henk)
+        public ActionResult update(TUNNIT tunn)
         {
 
             KoulukantaEntities entities = new KoulukantaEntities();
@@ -73,38 +71,39 @@ namespace MvcTietokantaAzure.Controllers
             bool OK = false;
 
             // onko kyseessä muokkaus vai uuden lisääminen?
-            if (henk.HenkiloID == 0)
+            if (tunn.TuntiID == 0)
             {
                 // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
-                HENKILOT dbItem = new HENKILOT()
+                TUNNIT dbItem = new TUNNIT()
                 {
-                    Etunimi = henk.Etunimi,
-                    Sukunimi = henk.Sukunimi,
-                    Osoite = henk.Osoite,
-                    Esimies = henk.Esimies
+                    
+                    ProjektiID = tunn.ProjektiID,
+                    HenkiloID = tunn.HenkiloID,
+                    Pvm = tunn.Pvm,
+                    Tunnit1 = tunn.Tunnit1
                 };
 
                 // tallennus tietokantaan
-                entities.HENKILOT.Add(dbItem);
+                entities.TUNNIT.Add(dbItem);
                 entities.SaveChanges();
                 OK = true;
             }
             else
             {
                 // muokkaus, haetaan id:n perusteella riviä tietokannasta
-                HENKILOT dbItem = (from h in entities.HENKILOT
-                                   where h.HenkiloID == henk.HenkiloID
-                                   select h).FirstOrDefault();
+                TUNNIT dbItem = (from t in entities.TUNNIT
+                                   where t.TuntiID == tunn.TuntiID
+                                   select t).FirstOrDefault();
 
 
 
                 if (dbItem != null)
                 {
-                    dbItem.HenkiloID = henk.HenkiloID;
-                    dbItem.Etunimi = henk.Etunimi;
-                    dbItem.Sukunimi = henk.Sukunimi;
-                    dbItem.Osoite = henk.Osoite;
-                    dbItem.Esimies = henk.Esimies;
+                    dbItem.TuntiID = tunn.TuntiID;
+                    dbItem.ProjektiID = tunn.ProjektiID;
+                    dbItem.HenkiloID = tunn.HenkiloID;
+                    dbItem.Pvm = tunn.Pvm;
+                    dbItem.Tunnit1 = tunn.Tunnit1;
 
 
                     // tallennus tietokantaan
@@ -122,13 +121,13 @@ namespace MvcTietokantaAzure.Controllers
             KoulukantaEntities entities = new KoulukantaEntities();
             // etsitään id:n perusteella asiakasrivi kannasta
             bool OK = false;
-            HENKILOT dbItem = (from h in entities.HENKILOT
-                               where h.HenkiloID == id
-                               select h).FirstOrDefault();
+            TUNNIT dbItem = (from t in entities.TUNNIT
+                               where t.TuntiID == id
+                               select t).FirstOrDefault();
             if (dbItem != null)
             {
                 // tietokannasta poisto
-                entities.HENKILOT.Remove(dbItem);
+                entities.TUNNIT.Remove(dbItem);
                 entities.SaveChanges();
                 OK = true;
             }
@@ -138,5 +137,4 @@ namespace MvcTietokantaAzure.Controllers
         }
 
     }
-
 }

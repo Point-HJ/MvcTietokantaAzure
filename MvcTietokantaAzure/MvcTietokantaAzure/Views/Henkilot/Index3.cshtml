@@ -30,7 +30,7 @@
                     
                     // etsitään henkilön tiedot klikatulta riviltä
                     var henkiloId = $(this).parent().parent().next().text();
-                    alert(henkiloId);
+                    //alert(henkiloId);
 
                     // haetaan asiakkaan tiedot id:n perusteella
                     $.getJSON("/henkilot/getsinglehenkilo/" + henkiloId, null, function (json2) {
@@ -114,7 +114,7 @@
     </script>
 
 }
-<h2>Henkilöt, dynaaminen muokkaus Ajaxilla</h2>
+<h2>Henkilöt</h2>
 <button class="btn btn-primary" id="addUusiHenkiloButton">Lisää uusi</button>
 
 
